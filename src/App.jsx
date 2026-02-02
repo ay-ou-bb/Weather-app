@@ -1,8 +1,15 @@
+import {useEffect, useState} from "react"
+
+
+// material ui
 import { createTheme,ThemeProvider } from "@mui/material/styles";
 import Container from '@mui/material/Container';
 import Typography from '@mui/material/Typography';
 import CloudIcon from '@mui/icons-material/Cloud';
 import Button from '@mui/material/Button';
+
+// external libraries
+import axios from "axios";
 
 
 const theme =createTheme({
@@ -12,6 +19,24 @@ const theme =createTheme({
 })
 
 function App() {
+
+  const [temp , setTemp] = useState(null)
+
+  useEffect(()=>{
+    axios.get('https://api.openweathermap.org/data/2.5/weather?lat=31.7500&lon=-4.5000&appid=641ed9e18a9a0933c63051ca7f2e8e8a')
+      .then(function (response) {
+        // handle success
+        const responseTemp = Math.round(response.data.main.temp -272.15)
+        setTemp(responseTemp)
+        console.log(response.data);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      })
+      
+  },[])
+
   return (
     <>
       <ThemeProvider theme={theme}>
@@ -32,7 +57,7 @@ function App() {
                   الراشيدية
                 </Typography>
                 <Typography variant="h5" style={{marginRight:"15px"}}>
-                  الاحد 31-01-2025
+                  الاحد 31-01-2026
                 </Typography>
               </div>
             {/*=== city & time ===*/}
@@ -42,7 +67,7 @@ function App() {
                 {/* temp & description */}
                 <div>
                   <Typography variant="h1" style={{textAlign:"right"}}>
-                    38
+                    {temp}
                   </Typography>
                   <Typography variant="h6" style={{textAlign:"right"}}>
                     broken clouds
