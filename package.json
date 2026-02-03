@@ -1,14 +1,14 @@
 {
   "name": "package",
-  "homepage":"https://ay-ou-bb.github.io/Weather-app/",
+  "homepage": "https://ay-ou-bb.github.io/Weather-app/",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "predeploy":"npm run build",
-    "deploy":"gh-pages -d dist",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d dist",
     "lint": "eslint .",
     "preview": "vite preview"
   },
@@ -18,6 +18,7 @@
     "@mui/icons-material": "^7.3.7",
     "@mui/material": "^7.3.7",
     "axios": "^1.13.4",
+    "moment": "^2.30.1",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

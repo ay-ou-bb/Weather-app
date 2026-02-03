@@ -10,6 +10,9 @@ import Button from '@mui/material/Button';
 
 // external libraries
 import axios from "axios";
+import moment from "moment/min/moment-with-locales"
+
+moment.locale("ar");
 
 
 const theme =createTheme({
@@ -18,22 +21,54 @@ const theme =createTheme({
   }
 })
 
+let cancelAxios =null
+
 function App() {
 
-  const [temp , setTemp] = useState(null)
+ 
+  const [dateAndTime,setDateAndTime]=useState("")
+  const [temp , setTemp] = useState(
+    {
+      number:null,
+      description:"",
+      min:null,
+      max: null,
+      icon:null,
+    })
 
   useEffect(()=>{
-    axios.get('https://api.openweathermap.org/data/2.5/weather?lat=31.7500&lon=-4.5000&appid=641ed9e18a9a0933c63051ca7f2e8e8a')
+
+    setDateAndTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
+
+    axios.get('https://api.openweathermap.org/data/2.5/weather?lat=31.7500&lon=-4.5000&appid=641ed9e18a9a0933c63051ca7f2e8e8a',
+    {
+      cancelToken:new axios.CancelToken((c)=>{
+        cancelAxios = c
+      })
+    }
+    )
       .then(function (response) {
         // handle success
         const responseTemp = Math.round(response.data.main.temp -272.15)
-        setTemp(responseTemp)
-        console.log(response.data);
+        const min = Math.round(response.data.main.temp_min -272.15)
+        const max = Math.round(response.data.main.temp_max -272.15)
+        const description = response.data.weather[0].description
+        const responseIcon = response.data.weather[0].icon
+
+        setTemp({number:responseTemp,min:min,max:max,description:description,icon:`https://openweathermap.org/payload/api/media/file/${responseIcon}%402x.png`})
+        console.log(response);
+       
+        
       })
       .catch(function (error) {
         // handle error
         console.log(error);
       })
+
+      return ()=>{
+        cancelAxios();
+      }
+
       
   },[])
 
@@ -57,7 +92,7 @@ function App() {
                   الراشيدية
                 </Typography>
                 <Typography variant="h5" style={{marginRight:"15px"}}>
-                  الاحد 31-01-2026
+                  {dateAndTime}
                 </Typography>
               </div>
             {/*=== city & time ===*/}
@@ -66,16 +101,19 @@ function App() {
               <div style={{display:"flex" ,justifyContent:"space-around"}}>
                 {/* temp & description */}
                 <div>
-                  <Typography variant="h1" style={{textAlign:"right"}}>
-                    {temp}
-                  </Typography>
+                  <div style={{display:"flex" ,justifyContent:"center", alignItems:"center"}}>
+                    <Typography variant="h1" style={{textAlign:"right"}}>
+                      {temp.number}
+                    </Typography>
+                    <img src={temp.icon}/>
+                  </div>
                   <Typography variant="h6" style={{textAlign:"right"}}>
-                    broken clouds
+                    {temp.description}
                   </Typography>
                   <div style={{display:"flex",justifyContent:"space-between", alignItems:"center"}}>
-                    <h5>الصغري:34</h5>
+                    <h5>الصغري:{temp.min}</h5>
                     <h5 style={{margin:"0 5px"}}> | </h5>
-                    <h5>الكبرى:34</h5>
+                    <h5>الكبرى:{temp.max}</h5>
                   </div>
                 </div>
                 {/*=== temp & description === */}
