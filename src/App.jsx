@@ -114,7 +114,7 @@ function App() {
                 <Typography variant="h2" style={{marginRight:"10px",fontWeight:"600"}}>
                   {t("Errachidia")}
                 </Typography>
-                <Typography variant="h5" style={{marginRight:"15px"}}>
+                <Typography variant="h6" style={{marginRight:"15px"}}>
                   {dateAndTime}
                 </Typography>
               </div>
