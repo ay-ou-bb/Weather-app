@@ -81,7 +81,7 @@ function App() {
         const description = response.data.weather[0].description
         const responseIcon = response.data.weather[0].icon
 
-        setTemp({number:responseTemp,min:min,max:max,description:description,icon:`https://openweathermap.org/payload/api/media/file/${responseIcon}%402x.png`})        
+        setTemp({number:responseTemp,min:min,max:max,description:description,icon:`http://openweathermap.org/img/wn/${responseIcon}.png`})        
       })
       .catch(function (error) {
         // handle error
