@@ -12,6 +12,8 @@ import Button from '@mui/material/Button';
 import axios from "axios";
 import moment from "moment/min/moment-with-locales"
 
+import { useTranslation } from 'react-i18next';
+
 moment.locale("ar");
 
 
@@ -25,7 +27,9 @@ let cancelAxios =null
 
 function App() {
 
- 
+  const { t, i18n } = useTranslation();
+
+  // ===== STATES =====//
   const [dateAndTime,setDateAndTime]=useState("")
   const [temp , setTemp] = useState(
     {
@@ -35,6 +39,28 @@ function App() {
       max: null,
       icon:null,
     })
+  const [locale, setLocal] = useState("ar")
+
+    // ======== EVENT HANDLERS =====//
+
+    function handleLanguageClick(){
+      if(locale == "en"){
+        setLocal("ar")
+        i18n.changeLanguage("ar")
+        moment.locale("ar");
+
+      }else{
+        setLocal("en")
+        i18n.changeLanguage("en")
+        moment.locale("en");
+      }
+      setDateAndTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
+
+    } 
+
+    useEffect(()=>{
+      i18n.changeLanguage(locale)
+    },[])
 
   useEffect(()=>{
 
@@ -55,10 +81,7 @@ function App() {
         const description = response.data.weather[0].description
         const responseIcon = response.data.weather[0].icon
 
-        setTemp({number:responseTemp,min:min,max:max,description:description,icon:`https://openweathermap.org/payload/api/media/file/${responseIcon}%402x.png`})
-        console.log(response);
-       
-        
+        setTemp({number:responseTemp,min:min,max:max,description:description,icon:`https://openweathermap.org/payload/api/media/file/${responseIcon}%402x.png`})        
       })
       .catch(function (error) {
         // handle error
@@ -78,18 +101,18 @@ function App() {
         <Container maxWidth="sm">
           {/* card */}
           <div 
-            dir="rtl"
+            dir={locale=="ar"?"rtl":"ltr"}
             style={{
-              width:"500px",
+              width:"100%",
               background:"rgb(28 52 91 / 36%)",
               borderRadius:"15px",
               padding :"10px", 
               boxShadow:"0px 11px 1px rgba(0,0,0,0.05)"}}
             >
             {/* city & time */}
-              <div style={{display:"flex", alignItems:"end" , justifyContent: "start"}} dir="rtl">
+              <div style={{display:"flex", alignItems:"end" , justifyContent: "start"}} dir={locale=="ar"?"rtl":"ltr"}>
                 <Typography variant="h2" style={{marginRight:"10px",fontWeight:"600"}}>
-                  الراشيدية
+                  {t("Errachidia")}
                 </Typography>
                 <Typography variant="h5" style={{marginRight:"15px"}}>
                   {dateAndTime}
@@ -108,12 +131,12 @@ function App() {
                     <img src={temp.icon}/>
                   </div>
                   <Typography variant="h6" style={{textAlign:"right"}}>
-                    {temp.description}
+                    {t(temp.description)}
                   </Typography>
                   <div style={{display:"flex",justifyContent:"space-between", alignItems:"center"}}>
-                    <h5>الصغري:{temp.min}</h5>
+                    <h5>{t("min")}:{temp.min}</h5>
                     <h5 style={{margin:"0 5px"}}> | </h5>
-                    <h5>الكبرى:{temp.max}</h5>
+                    <h5>{t("max")}:{temp.max}</h5>
                   </div>
                 </div>
                 {/*=== temp & description === */}
@@ -131,8 +154,12 @@ function App() {
         {/*=== card ===*/}
 
         {/* translation container */}
-        <div style={{marginTop:"20px"}}>
-          <Button variant="text" style={{color:"white"}}>انجليزي</Button>
+        <div dir={locale=="ar"?"rtl":"ltr"} style={{width:"100%",display:"flex",justifyContent:"end",marginTop:"20px"}}>
+          <Button
+           variant="text" 
+           style={{color:"white"}} 
+           onClick={handleLanguageClick}>{locale=="en" ? "Arabic":"انجليزي"}
+          </Button>
         </div>
         {/* translation container */}
         </Container>
