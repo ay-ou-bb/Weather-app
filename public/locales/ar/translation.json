@@ -1,7 +1,15 @@
 {
-    "Errachidia":"الراشيدية",
+    "Rabat":"الرباط",
     "min":"الصغرى",
     "max":"الكبرى",
     "overcast clouds":"غيوم ملبدة",
-    "clear sky" :"سماء صافية"
+    "clear sky" :"سماء صافية",
+    "few clouds":"بعض السحب",
+    "scattered clouds":"سحب متفرقة",
+    "broken clouds":"غيوم متفرقة",
+    "shower rain":"زخات مطر",
+    "rain":"مطر",
+    "thunderstorm":"عاصفة رعدية",
+    "snow":"ثلج",
+    "mist":"ضباب"
 }

@@ -66,7 +66,7 @@ function App() {
 
     setDateAndTime(moment().format('MMMM Do YYYY, h:mm:ss a'))
 
-    axios.get('https://api.openweathermap.org/data/2.5/weather?lat=31.7500&lon=-4.5000&appid=641ed9e18a9a0933c63051ca7f2e8e8a',
+    axios.get('https://api.openweathermap.org/data/2.5/weather?lat=34.0084&lon=6.8539&appid=641ed9e18a9a0933c63051ca7f2e8e8a',
     {
       cancelToken:new axios.CancelToken((c)=>{
         cancelAxios = c
@@ -112,7 +112,7 @@ function App() {
             {/* city & time */}
               <div style={{display:"flex", alignItems:"end" , justifyContent: "start"}} dir={locale=="ar"?"rtl":"ltr"}>
                 <Typography variant="h2" style={{marginRight:"10px",fontWeight:"600"}}>
-                  {t("Errachidia")}
+                  {t("Rabat")}
                 </Typography>
                 <Typography variant="h6" style={{marginRight:"15px"}}>
                   {dateAndTime}
